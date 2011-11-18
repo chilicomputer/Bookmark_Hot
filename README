@@ -3,4 +3,4 @@ Maybe you need the following info:
 1.Sqlite3 is used as db engine
 2.There are two js tools in jsTools, which are /jsTools/canvasloader.js for showing a loading effet and /jsTools/overlay.js for showing a mask layer.
 3.There is a html parser in pyTools, which could be found in /pyTools/queryHighlight.py. The parser accepts a html string and highlights the keywords assigned. 
-4.In /bookmark/templatetags/chili_filter.py there are two custom filters, one can highlight keywords and the other convert a int to "stars", i.e. inputting "5" will get a "¡ï¡ï¡ï¡ï¡ï" string.
+4.In /bookmark/templatetags/chili_filter.py there are two custom filters, one can highlight keywords and the other convert a int to "stars", i.e. inputting "5" will get a "â˜…â˜…â˜…â˜…â˜…" string.
