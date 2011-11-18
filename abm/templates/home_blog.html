@@ -1,0 +1,13 @@
+{% extends 'home.html' %}
+{% block heading %}
+<h1>吃了没，{{user.portrait.nick|default:user.username}}？
+<a href="/home/" class="data_nav button power_on">广&nbsp;&nbsp;播</a>
+<a href="/latest/" class="data_nav button">最新书签</a>
+</h1>
+{% endblock %}
+{% block data %}
+	<h2>我关注的人在干嘛</h2>
+	<div class="content">
+	{% include 'sns/blog_list.html' %}
+	</div>
+{% endblock %}

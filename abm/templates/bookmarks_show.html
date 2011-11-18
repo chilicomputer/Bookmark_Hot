@@ -1,0 +1,76 @@
+{# a sub-page to render a set of bookmarks #}
+{% load chili_filter %}
+<ul class="bm_list">
+	{% if bookmarks %}
+	{% for bookmark in bookmarks %}
+		<li>
+			<div class="bm_entry">
+			<table class="basic" cellspacing="0"><tbody>
+				<tr class="title">
+					<td><a href="{{bookmark.get_absolute_url}}" class="bm_title">
+					{% if need_highlight %}
+					{{bookmark.title|highlight:words}}
+					{% else %}
+					{{bookmark.title|escape}}
+					{% endif %}
+					</a></td>
+					<td class="tfix">
+					{% if bookmark.user_rating %}
+					<img class="mark" src="/static/pic/rated.png" title="我给了{{bookmark.user_rating}}分"/>
+					{% endif %}
+					{% if bookmark.is_favored %}
+					<img class="mark" src="/static/pic/favored.png" title="我已收藏"/>
+					{% endif %}</td>
+				</tr>
+				{% if show_tags %}
+				<tr class="tags">
+					<td colspan="2">标签:
+						{% if bookmark.tags.all %}
+							<ul>
+							{% for tag in bookmark.tags.all %}
+							<li class="tag_entry"><a href="/tag/{{tag.name}}/">
+							{% if need_highlight %}
+							{{tag.name|highlight:words}}
+							{% else %}
+							{{tag.name|escape}}
+							{% endif %}
+							</a></li>
+							{% endfor %}
+							</ul>
+						{% else %}
+							None.
+						{% endif %}
+					</td>
+				</tr>
+				{% endif %}
+				{% if show_user %}
+				<tr class="genesis">
+					<td colspan="2">添加者:
+						<a href="/user/{{bookmark.user.username}}/" class="bm_genesis">
+						{{bookmark.user.username}}</a>
+					</td>
+				</tr>
+				{% endif %}
+			</tbody></table>
+			<table class="statistics" cellspacing="0"><tbody>
+			{% if not ignore_statistics %}
+				<tr>
+					<td class="ltd">{{bookmark.avg_rating|num2star}}({{bookmark.rated_times}}人打分)</td>
+					<td class="std">{{bookmark.favor_times}}&nbsp;♥</td>
+					<td class="std">{{bookmark.cmt_times}}条评论</td>
+					<td class="std">{% if can_edit %}
+						<a onclick="get_bm(event)" class="button"
+						href="/bookmark/save/?url={{bookmark.link.url|urlencode}}" >
+						EDIT</a>
+						{% endif %}</td>
+				</tr>
+			{% endif %}
+			</tbody></table>
+			</div>
+		</li>
+	{% endfor %}
+	{% else %}
+		<li>啥也木有~ o(︶︿︶)o</li>
+	{% endif %}
+</ul>
+

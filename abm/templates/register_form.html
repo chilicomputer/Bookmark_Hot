@@ -1,0 +1,21 @@
+<script type="text/javascript" src="/static/js/register.js"></script>
+
+<form id="registerform" method="post" action='/register/'>{% csrf_token %}
+	{{form.non_field_errors}}
+	<table cellspacing="0"><tbody>
+	<tr class="error"><th colspan="2">{{form.username.errors}}</th></tr>
+	<tr class="formfield"><td class="rginput">{{form.username.label_tag}}={{form.username}}</td>
+		<td style="display:none" class="inputtip">最长30个字母或15个汉字</td></tr>
+	<tr class="error"><th colspan="2">{{form.email.errors}}</th></tr>
+	<tr class="formfield"><td class="rginput">{{form.email.label_tag}}={{form.email}}</td>
+		<td style="display:none" class="inputtip">此邮箱将接收激活邮件</td></tr>
+	<tr class="error"><th colspan="2">{{form.pwd.errors}}</th></tr>
+	<tr class="formfield"><td class="rginput">{{form.pwd.label_tag}}={{form.pwd}}</td>
+		<td style="display:none" class="inputtip">字母、数字或符号，区分大小写，最短6字符</td></tr>
+	<tr class="error"><th colspan="2">{{form.con_pwd.errors}}</th></tr>
+	<tr class="formfield"><td class="rginput">{{form.con_pwd.label_tag}}={{form.con_pwd}}</td>
+		<td style="display:none" class="inputtip">请再一次输入密码</td></tr>
+	<tr class="formfield"><td class="bninput">
+	<input class="button register" type="submit" value="注  册"/></td><td>&nbsp;</td></tr>
+	</tbody></table>
+</form>

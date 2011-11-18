@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html id="bmh" lang="zh">
+<head><meta charset="UTF-8"/><title>Bookmark Hot - {% block title %}{% endblock %}</title>
+<link type="image/x-icon" href="/static/pic/bmlogo.ico" rel="shortcut icon">
+<link rel="stylesheet" href="/static/css/root.css" type="text/css"/>
+{% block ex_css %}{% endblock %}
+<script type="text/javascript" src="/static/js/jQuery.js"></script>
+<script type="text/javascript" src="/static/js/canvasloader.js"></script>
+<script type="text/javascript" src="/static/js/overlay.js"></script>
+<script type="text/javascript" src="/static/js/root.js"></script>
+{% block ex_js %}{% endblock %}
+</head>
+<body>
+	{% if user.is_authenticated %}
+	<div class="header">
+	{% else %}
+	<div class="header_any">
+	{% endif %}
+		<div class="content_wrap">
+		{% if user.is_authenticated %}
+		<div class="left" id="logo"><h1>Bookmark.Hot.</h1></div>
+		<div class="left" id="nav">
+			<div class="right" id="search_bar">
+				<form action="/search/" method="get" id="query_form">
+					<div class="left"><input id="nav_query" name="query" type="text" /></div>
+					<div class="right"><input class="button pn_search" type="submit" value=''/></div>
+				</form>
+			</div>
+			<div class="left" id="site_trans">
+				<ul>
+					<li><a class="pn" href="/bookmark/save/">
+						<img src="/static/pic/addbm.png" title="添加书签"/></a></li>
+					<li><a class="pn" href="{% url call_adds username=user.username %}">
+						<img src="/static/pic/mine.png" title="我添加的书签"/></a></li>
+					<li><a class="pn" href="{% url call_favors username=user.username %}">
+						<img src="/static/pic/favor.png" title="我马克的书签"/></a></li>
+					<li><a class="pn" href="{% url call_relation username=user.username ff='follows'%}">
+						<img src="/static/pic/follow.png" title="我关注的人"/></a></li>
+					<li><a class="pn" href="{% url call_relation username=user.username ff='fans'%}">
+						<img src="/static/pic/fan.png" title="我的粉丝"/></a></li>
+					<li><a class="pn" href="/home/">
+						<img src="/static/pic/home.png"/ title="返回首页"/></a></li>
+					<li><a class="pn" href="/logout/">
+						<img src="/static/pic/logout.png" title="退出"/></a></li>
+					<li><a class="pn" href="/register/">
+						<img src="/static/pic/key.png" title="注册"/></a></li>
+				</ul>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+		{% else %}
+		<div id="logo_any" class="left">
+			<h1><a href="/">Bookmark Hot.</a></h1>
+			<p>分享%发现书签&nbsp;:&nbsp;:&nbsp;更多果汁，就在Bookmark Hot！注册吧，少年！</p>
+		</div>
+		{% block login %}
+		<div id="login_form" class="right">
+			<form action="/login/" method="post">{% csrf_token %}
+				<table cellspacing="0">
+				<tbody>
+					<tr>
+						<td><label for="username">用户名</label></td>
+						<td><label for="pwd">密码</label></td>
+					</tr>
+					<tr>
+						<td><input id="login_username" name="username" class="input_text" type="text"/></td>
+						<td><input id="login_pwd" name="password" class="input_text" type="password"/></td>
+						<td><input class="button" type="submit" value="登  录"/></td>
+						<td><input id="login_next" type="hidden" name="next" value=""/></td>
+					</tr>
+				</tbody>
+				</table>
+			</form>
+		</div>
+		{% endblock %}
+		{% endif %}
+		<div class="clearfix"></div>
+		</div>
+	</div>
+	<div id="prompt" style="background-color:#FFB6C1">
+		<div class="msg">
+		{% block msg %}
+		{% endblock %}
+		</div>
+	</div>
+	<div class="torso" id="page_main">
+		<div class="content_wrap">
+			{% block heading %}{% endblock %}
+			<div class="left">
+				{% block walkietalkie %}
+				{% endblock %}
+				{% block search %}
+					{% if not user.is_authenticated %}
+					<div id="torso_search">
+						<form action="/search/" method="get" id="query_form">
+						<div>
+						<span class="left"><input id="nav_query" name="query" onkeydown="enter(event)" type="text" /></span>
+						<span class="right"><input class="button" type="submit" value='搜  索'/></span>
+						<div class="clearfix"></div>
+						</div>
+						</form>
+					</div>
+					{% endif %}
+				{% endblock %}
+				<div class="data">
+				{% block data %}
+				{% endblock %}
+				</div>
+			</div>
+			{% if user.is_authenticated %}
+				<div class="right">
+				{% block torso_right %}
+					{% include 'sns/portrait_right.html' %}
+				{% endblock %}
+				</div>
+			{% endif %}
+			{% if not user.is_authenticated %}
+			{% block register %}
+			<div id="register_any">
+				<a href="/register/">
+				<img src="/static/pic/register.png" id="register_enter"/></a>
+			</div>
+			{% endblock %}
+			{% endif %}
+			<div class="clearfix"></div>
+		</div>
+	</div>
+
+	<div class="footer" id="footer">
+		<div class="content_wrap">
+		{% block foot %}
+			<span class="left" id="mycp">&copy; 1987－？ bookmarkhot.com, all rights rest in peace</span>
+			<span class="right">
+			<a class="button" target="blank" href="http://weibo.com/gorecomputer">关注我的微博</a></span>
+			<span class="right">
+			<a class="button" target="blank" href="/contact_page/">联系我</a></span>
+		{% endblock %}
+		</div>
+	</div>
+	{% block modal %}
+	{% endblock %}
+</body>
+</html>

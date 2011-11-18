@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block title %}{{bookmark.title}}{% endblock %}
+{% block ex_js %}<script type="text/javascript" src="/static/js/event.js"></script>{% endblock %}
+{% block ex_css %}<link rel="stylesheet" href="/static/css/rater.css" type="text/css" />{% endblock %}
+{% block data %}
+{% block search %}{% endblock %}
+{% load chili_filter %}
+	<div id="entry_apex">
+		<div class="left" id="add_favor">
+			<div class="favor_img">
+			{% if bookmark.user == user %}
+			<a class="byme" title="我添加的" href="#"></a>
+			{% else %}
+				{% if FON %}
+				<a class="favor" href="#" title="已收藏"></a>
+				{% else %}
+				<a class="not_favor" title="收藏？"
+				href="{% url object_collector content_type='bookmark.bookmark' obj_id=bookmark.id %}"></a>
+				{% endif %}
+			{% endif %}
+			</div>
+			<div class="count"><div class="count_up">{{bookmark.favor_times}}</div>
+			<div class="count_bottom">收藏</div></div>
+		</div>
+		<div class="right" id="entry_basic">
+			<h2><a target="blank" href="{{bookmark.link.url}}">{{bookmark.title|escape}}</a></h2>
+			<div class="eb_bd">
+			<p>{{bookmark.avg_rating|num2star}}</p>
+			<p>标签:<ul>
+					{% if bookmark.tags.all %}
+					{% for tag in bookmark.tags.all %}
+					<li class="tag_entry"><a href="/tag/{{tag.name}}/">
+						{{tag.name|escape}}
+					</a></li>
+					{% endfor %}
+					{% else %}
+					<li>None.</li>
+					{% endif %}
+			</ul></p>
+			<p>来自:<a class="bm_genesis" href="{{bookmark.user.get_absolute_url}}">{{bookmark.user.username}}</a></p>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+	<div id="entry_intro">
+		<h3>简介</h3>
+		<p class="indent">{{bookmark.info}}</p>
+	</div>
+	<div id="entry_review">
+		<table><tbody><tr>
+		<td><a id="add_comment" class="button"
+		href="{% url comment_page app_model='bookmark.bookmark' obj_id=bookmark.id %}">+写评论</a></td>
+		<td id="ron">{% if RON %}我的评分::{% endif %}</td>
+		<td id="rater">{% include 'event/rater.html' %}</td>
+		<div class="clearfix"></div>
+		</tr></tbody></table>
+	</div>
+	<div id="entry_comments">
+		<h3>最新评论</h3>
+		{% include 'event/comments_show.html' %}
+	</div>
+	<script type="text/javascript">
+	var ron={{RON}}
+	var fon={{FON}}
+	</script>
+{% endblock %}
+{% block modal %}
+	{% if user.is_authenticated %}
+	<div id="fcmodal" style="display:none">
+	<form method="post" action="#">
+	<p><label for="cmt_in"></label></p>
+	<p><textarea name="words" id="cmt_in"></textarea></p>
+	<p><input id="cmttype" type="hidden"/><input id="url" type="hidden"/></p>
+	<p><span class="texterror"></span><input type="submit" id="submit" class="button" value=""/>
+		<span id="cancel" class="button">取消</span></p>
+	</form>
+	</div>
+	{% endif %}
+{% endblock %}

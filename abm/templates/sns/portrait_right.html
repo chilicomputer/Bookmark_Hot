@@ -1,0 +1,26 @@
+{# the right part of torso, namely the portrait #}
+<div class="clearfix" id="portrait">
+	{% if ban %}
+	<div id="userAvatar">
+		<img class="avatar" src="{{ user.portrait.avatar_url|default:'/static/pic/da.png' }}"/>
+	</div>
+	<div id="usr_nick">
+		{{user.portrait.nick|default:user.username}}</div>
+	<div id="usr_sign">
+		<img id="quotel" src="/static/pic/quotel.png"/>
+		<span id="sign_text">{{user.portrait.sign|default:'彪悍的人生不需要个性签名'}}</span>
+		<img id="quoter" src="/static/pic/quoter.png"/></div>
+	{% else %}
+	<div id="userAvatar">
+		<a href="javascript:avatarEdit()">
+			<img class="avatar" src="{{ user.portrait.avatar_url|default:'/static/pic/da.png' }}"
+			title="点击修改头像"/></a>
+	</div>
+	<div id="usr_nick" class="edit" onclick="edit_nick()">
+		{{user.portrait.nick|default:user.username}}</div>
+	<div id="usr_sign" class="edit" onclick="edit_sign()">
+		<img id="quotel" src="/static/pic/quotel.png"/>
+		<span id="sign_text">{{user.portrait.sign|default:'彪悍的人生不需要个性签名'}}</span>
+		<img id="quoter" src="/static/pic/quoter.png"/></div>
+	{% endif %}
+</div>

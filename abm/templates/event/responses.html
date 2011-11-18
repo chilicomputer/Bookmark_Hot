@@ -1,0 +1,17 @@
+
+<div class="responses">
+	{% if responses %}
+	{% for response in responses %}
+	<p><a href="{{response.user.get_absolute_url}}">
+	{% ifequal user.username response.user.username %}我
+	{% else %}{{response.user.username}}
+	{% endifequal %}</a>
+		::&quot;{{response.words}}&quot;</p>
+	{% endfor %}
+	{% endif %}
+</div>
+
+<div class="add_response">
+	<p><input class="rspinput" type="text" name="words"/>
+		<span class="button">添加回应</span></p>
+</div>

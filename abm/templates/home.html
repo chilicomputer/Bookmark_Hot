@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}我爱我家{% endblock %}
+{% block walkietalkie %}
+<div id="talk">
+	<form onsubmit="walkietalkie(event)" action="/talk/" method="post">
+		<div class="talkietext"><textarea name="words"></textarea></div>
+		<div class="talkiesub"><span id="twerror"></span>
+		<input class="button right" type="submit" value="Tweet"/>
+			<div class="clearfix"></div></div>
+	</form>
+</div>
+{% endblock %}
+
+

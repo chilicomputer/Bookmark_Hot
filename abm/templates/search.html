@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block title %}搜索{% endblock %}
+{% block ex_js %}<script type="text/javascript" src="/static/js/search_page.js"></script>{% endblock %}
+{% block search %}{% endblock %}
+{% block data %}
+	<form id="search_torso" action="." method="get">
+		{{form.non_field_errors}}
+		<div class="left">{{form.query}}</div>
+		<input class="button" type="submit" value="搜  索" />
+	</form>
+	{% if words == ' ' %}
+	<h1 id="search_title">搜索书签和用户，关键词以空格分隔</h1>
+	{% else %}
+		{% if '' in words %}
+		<h1 id="search_title">随便找了找</h1>
+		{% else %}
+		<h1 id="search_title">搜索结果</h1>
+		{% endif %}
+	{% endif %}
+	<div id="search_results">
+	{% if bookmarks_page or users_page %}
+		<div id="results_catalog">
+			<ul>
+				<li class="button">书&nbsp;&nbsp;签&nbsp;+&nbsp;{{bnum}}</li>
+				<li class="button">用&nbsp;&nbsp;户&nbsp;+&nbsp;{{unum}}</li>
+			</ul>
+		</div>
+		<div class="results_wrap">
+			{% if bookmarks_page %}
+				{% with bookmarks_page.object_list as bookmarks %}
+				{% include 'bookmarks_show.html' %}
+				{% endwith %}
+			<div class="page_nav" id="bn">
+				{% if bookmarks_page.has_previous %}
+					<a class="left previsous_page"
+					href="/search/?query={{words|urlencode}}&?page={{bookmarks_page.previous_page_number}}&?bookmark"
+					onclick="get_page()"></a>
+				{% endif %}
+				<span class="curren_page">第{{bookmarks_page.number}}/{{bookmarks_page.paginator.num_pages}}页</span>
+				{% if bookmarks_page.has_next %}
+					<a class="right next_page"
+					href="/search/?query={{words|urlencode}}&?page={{bookmarks_page.next_page_number}}&?bookmark"
+					onclick="get_page()"></a>
+				{% endif %}
+			</div>
+			{% endif %}
+		</div>
+		<div class="results_wrap" style="display:none">
+			{% if users_page %}
+				{% with users_page.object_list as users %}
+				{% include 'sns/users_show.html' %}
+				{% endwith %}
+			<div class="page_nav" id="un">
+				{% if users_page.has_previous %}
+					<a class="left previsous_page"
+					href="/search/?query={{words|urlencode}}&?page={{users_page.previous_page_number}}&?user"
+					onclick="get_page()"></a>
+				{% endif %}
+				<span class="curren_page">第{{users_page.number}}/{{users_page.paginator.num_pages}}页</span>
+				{% if users_page.has_next %}
+					<a class="right next_page"
+					href="/search/?query={{words|urlencode}}&?page={{users_page.next_page_number}}&?user"
+					onclick="get_page()"></a>
+				{% endif %}
+			</div>
+			{% endif %}
+		</div>
+	{% endif %}
+	</div>
+{% endblock %}
+
+
+
