@@ -1,4 +1,4 @@
-###This is a Django project, including 3 apps, which are /bookmark, /event, /sns.
+This is a Django project, including 3 apps, which are /bookmark, /event, /sns.
 Maybe you need the following info:
 1.Sqlite3 is used as db engine
 2.There are two js tools in jsTools, which are /jsTools/canvasloader.js for showing a loading effet and /jsTools/overlay.js for showing a mask layer.
